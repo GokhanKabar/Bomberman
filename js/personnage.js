@@ -4,13 +4,14 @@ ctx.imageSmoothingEnabled = false;
 let all_img = [];
 let img = new Image();
 img.src = "./assets/bomberman.png";
-let numero = 0
+let numero = 8;
 let posX = 50;
 let posY = 50;
 let carreposy = 150;
-let bleu = '#4444CC';
+let carrepox = 150;
 let red = '#f00020';
 let bomb = false;
+
 
 img.onload = function () {
     let canvas1 = document.createElement("canvas");
@@ -41,8 +42,8 @@ function update() {
     posY, 61.5 * zoom, 64 * zoom);
 
     if(bomb == true){
-        ctx.fillStyle = red; //Nuance de bleu
-        ctx.fillRect(posX, posY, 50, 50);
+        ctx.fillStyle = red; 
+        ctx.fillRect(carrepox, carreposy, 50, 50);
     }
 
     }
@@ -77,14 +78,11 @@ function keydown_fun(e) {
             
     case "Space":
         bomb = true;
+        carreposy = posY;
+        carrepox = posX;
 
         break
         
-       
-        
-        
-
-
       
 }}
 setInterval(update, 100);
