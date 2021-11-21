@@ -1,0 +1,14 @@
+{ "columns":40,
+ "image":"mapbomberman.png",
+ "imageheight":992,
+ "imagewidth":1280,
+ "margin":0,
+ "name":"bomberman",
+ "spacing":0,
+ "tilecount":1240,
+ "tiledversion":"1.7.2",
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.6"
+}
