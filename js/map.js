@@ -147,5 +147,5 @@ export default function onload_tilemap() {
 let xobj = new XMLHttpRequest();
 xobj.onload = onload_tilemap;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', 'projetbomberman.json', true);
+xobj.open('GET', './tilemaps/projetbomberman.json', true);
 xobj.send();

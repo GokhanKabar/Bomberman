@@ -1,19 +1,19 @@
 import {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv} from './map.js';
 
 import {
-	all_img,
-	numero,
-	posX,
-	posY,
-	bomb,
-	red,
-	carrepox,
-	carreposy,
+	all_img
 } from './personnage.js';
+
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
 let bombe = new Image();
 bombe.src = './tilesets/bombe.png';
+let bomb = false;
+let numero = 8;
+let posX = 50;
+let posY = 50;
+let carreposy = 140;
+let carrepox = 140;
 
 function update() {
 	if (tilemap_loaded == 1 && tileset_loaded == 1) {
@@ -26,7 +26,6 @@ function update() {
 		ctx.drawImage(all_img[numero], posX, posY, 61.5 * zoom, 64 * zoom);
 
 		if (bomb == true) {
-			ctx.fillStyle = red;
 			ctx.drawImage(bombe, carrepox, carreposy, 50 * zoom, 50 * zoom);
 		}
 	}

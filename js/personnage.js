@@ -1,4 +1,4 @@
-export {all_img, numero, posX, posY, bomb, red, carrepox, carreposy};
+export {all_img};
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
@@ -6,13 +6,8 @@ ctx.imageSmoothingEnabled = false;
 let all_img = [];
 let img = new Image();
 img.src = './tilesets/bomberman.png';
-let numero = 8;
-let posX = 50;
-let posY = 50;
-let carreposy = 150;
-let carrepox = 150;
-let red = '#f00020';
-let bomb = false;
+
+
 
 img.onload = function () {
 	let canvas1 = document.createElement('canvas');
