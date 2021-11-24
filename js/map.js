@@ -1,4 +1,4 @@
-export {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv};
+export {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv, posbloc};
 
 
 let cnv = document.getElementById('myCanvas');
@@ -12,7 +12,9 @@ let tileset_loaded = 0;
 let tileset_elts = [];
 let cam_x = 0;
 let cam_y = 0;
-let zoom = 5;
+let zoom = 10;
+let posbloc = [];
+
 
 export default function onload_tilemap() {
 	if (this.status == 200) {
@@ -125,10 +127,15 @@ export default function onload_tilemap() {
 							16 * zoom,
 							16 * zoom
 						);
+						posbloc.push([iw * (16 * zoom),
+							ih * (16 * zoom),
+							16 * zoom,
+							16 * zoom]);
 					}
 					layer1_data_i += 1;
 				}
 			}
+			let posBuisson = [];
 			let layer2_data_i = 0;
 			for (let ih = 0, nh = layer2_height; ih < nh; ih += 1) {
 				for (let iw = 0, nw = layer2_width; iw < nw; iw += 1) {
@@ -140,10 +147,15 @@ export default function onload_tilemap() {
 							16 * zoom,
 							16 * zoom
 						);
+						posBuisson.push([iw * (16 * zoom),
+							ih * (16 * zoom),
+							16 * zoom,
+							16 * zoom]);
 					}
 					layer2_data_i += 1;
 				}
 			}
+			console.log(posbloc)
 		};
 	}
 }
@@ -151,5 +163,5 @@ export default function onload_tilemap() {
 let xobj = new XMLHttpRequest();
 xobj.onload = onload_tilemap;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './tilemaps/projetbomberman.json', true);
+xobj.open('GET', 'tilemaps/map.json', true);
 xobj.send();

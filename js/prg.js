@@ -1,4 +1,4 @@
-import {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv} from './map.js';
+import {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv, posbloc} from './map.js';
 
 import {
 	all_img
@@ -24,39 +24,29 @@ function update() {
 		let map_ctx = map_cnv.getContext('2d');
 		let imageData = map_ctx.getImageData(cam_x, cam_y, cnv.width, cnv.height);
 		ctx.putImageData(imageData, 0, 0);
-		let zoom = 1.5;
+		let zoom = 2;
 		ctx.fillStyle = '#FFFFFF';
-		ctx.drawImage(all_img[numero], posX, posY, 61.5 * zoom, 64 * zoom);
+		ctx.drawImage(all_img[numero], posX, posY, 51 * zoom, 61 * zoom);
 
 		if (bomb == true) {
 			ctx.drawImage(bombe, carrepox, carreposy, 50 * zoom, 50 * zoom);
 		}
 		ctx.closePath();
 
-		//ctx.beginPath()
-		//for(let i = 0; i < 5; i++) {
-		//	for(let j=0;j<5;j++){
-		//	ctx.rect(tabx[j],taby[i],153,130);
-		//	ctx.stroke();
-		//	}
-		//}
-		//ctx.closePath();
+		
 
 
 	}
 }
 
 function collision(x,y){
-	for(let i = 0; i < 5; i++) {
-		for(let j=0;j<5;j++){
-		if (posX < tabx[j] + 150 &&
-			posX + 61.5 > tabx[j]&&
-			posY < taby[i] + 130 &&
-			64 + posY > taby[i]) {
+	for(let i = 0; i < posbloc.length; i++) {
+		if (posX < posbloc[i][0] + posbloc[i][2] &&
+			posX + 51  > posbloc[i][0]&&
+			posY < posbloc[i][1] + posbloc[i][3] &&
+			61 + posY > posbloc[i][1]) {
 				posX += x;
 				posY += y;
-
-			}
 	 }
 	}
 }
