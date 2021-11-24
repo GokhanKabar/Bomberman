@@ -1,7 +1,7 @@
 import {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv} from './map.js';
 
 import {
-	all_img
+	all_img,
 } from './personnage.js';
 
 let cnv = document.getElementById('myCanvas');
@@ -14,6 +14,9 @@ let posX = 50;
 let posY = 50;
 let carreposy = 140;
 let carrepox = 140;
+let tabxy= [100,400,800,1200];
+let a=0;
+let b=0;
 
 function update() {
 	if (tilemap_loaded == 1 && tileset_loaded == 1) {
@@ -28,6 +31,15 @@ function update() {
 		if (bomb == true) {
 			ctx.drawImage(bombe, carrepox, carreposy, 50 * zoom, 50 * zoom);
 		}
+		for(let i = 0; i < 4; i++) {
+            for(let j=0;j<4;j++){
+            ctx.rect(tabxy[a],tabxy[b],80,80);
+            ctx.fill();
+            a++;
+            }
+            b++;
+            a=0;
+        }
 	}
 }
 setInterval(update, 100);
@@ -67,3 +79,5 @@ function keydown_fun(e) {
 			break;
 	}
 }
+
+

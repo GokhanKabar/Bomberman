@@ -1,4 +1,6 @@
 export {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv};
+
+
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
 
@@ -46,6 +48,7 @@ export default function onload_tilemap() {
 			let layer2_height = tilemap['layers'][2]['height'];
 			let layer2_width = tilemap['layers'][2]['width'];
 
+			
 			//console.log(tileset_imageheight);
 			//console.log(tileset_imagewidth);
 			//console.log(tileset_tileheight);
@@ -144,6 +147,7 @@ export default function onload_tilemap() {
 		};
 	}
 }
+
 let xobj = new XMLHttpRequest();
 xobj.onload = onload_tilemap;
 xobj.overrideMimeType('application/json');
