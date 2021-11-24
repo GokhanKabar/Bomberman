@@ -1,7 +1,7 @@
 import {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv} from './map.js';
 
 import {
-	all_img,
+	all_img
 } from './personnage.js';
 
 let cnv = document.getElementById('myCanvas');
@@ -10,36 +10,54 @@ let bombe = new Image();
 bombe.src = './tilesets/bombe.png';
 let bomb = false;
 let numero = 8;
-let posX = 50;
-let posY = 50;
+let posX = 0;
+let posY = 0;
 let carreposy = 140;
 let carrepox = 140;
-let tabxy= [100,400,800,1200];
-let a=0;
-let b=0;
+let tabx= [83,400,720,1040];
+let taby=[100,330,650,900];
 
 function update() {
+	ctx.beginPath()
 	if (tilemap_loaded == 1 && tileset_loaded == 1) {
+		
 		let map_ctx = map_cnv.getContext('2d');
 		let imageData = map_ctx.getImageData(cam_x, cam_y, cnv.width, cnv.height);
 		ctx.putImageData(imageData, 0, 0);
-		let zoom = 2;
+		let zoom = 1.5;
 		ctx.fillStyle = '#FFFFFF';
-		ctx.closePath();
 		ctx.drawImage(all_img[numero], posX, posY, 61.5 * zoom, 64 * zoom);
 
 		if (bomb == true) {
 			ctx.drawImage(bombe, carrepox, carreposy, 50 * zoom, 50 * zoom);
 		}
-		for(let i = 0; i < 4; i++) {
-            for(let j=0;j<4;j++){
-            ctx.rect(tabxy[a],tabxy[b],80,80);
-            ctx.fill();
-            a++;
-            }
-            b++;
-            a=0;
-        }
+		ctx.closePath();
+
+		//ctx.beginPath()
+		//for(let i = 0; i < 5; i++) {
+		//	for(let j=0;j<5;j++){
+		//	ctx.rect(tabx[j],taby[i],153,130);
+		//	ctx.stroke();
+		//	}
+		//}
+		//ctx.closePath();
+
+
+	}
+}
+
+function collision(x,y){
+	for(let i = 0; i < 5; i++) {
+		for(let j=0;j<5;j++){
+		if (posX < tabx[j] + 150 &&
+			posX + 61.5 > tabx[j]&&
+			posY < taby[i] + 130 &&
+			64 + posY > taby[i]) {
+				posX += x;
+				posY += y;
+
+			}
+	 }
 	}
 }
 setInterval(update, 100);
@@ -50,25 +68,29 @@ function keydown_fun(e) {
 		case 'ArrowRight':
 			if (numero == 3) numero = 2;
 			else numero = 3;
-			posX += 3;
+			posX += 20;
+			collision(-20,0)
 			break;
 
 		case 'ArrowLeft':
 			if (numero == 1) numero = 0;
 			else numero = 1;
-			posX -= 10;
+			posX -= 20;
+			collision(+20,0)
 			break;
 
 		case 'ArrowDown':
 			if (numero == 5) numero = 4;
 			else numero = 5;
-			posY += 10;
+			posY += 20;
+			collision(0,-20)
 			break;
 
 		case 'ArrowUp':
 			if (numero == 7) numero = 6;
 			else numero = 7;
-			posY -= 10;
+			posY -= 20;
+			collision(0,+20)
 			break;
 
 		case 'Space':
@@ -79,5 +101,3 @@ function keydown_fun(e) {
 			break;
 	}
 }
-
-
