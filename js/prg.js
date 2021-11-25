@@ -24,6 +24,8 @@ let zonetab = [];
 
 function update() {
 	ctx.beginPath()
+	
+	
 	if (tilemap_loaded == 1 && tileset_loaded == 1) {
 		
 		let map_ctx = map_cnv.getContext('2d');
@@ -34,17 +36,14 @@ function update() {
 		
 		
 			console.log(zonetab)
-			for(let i=0;i<zonetab.length;i++)
-			{
-				ctx.drawImage(zone,zonetab[i][0],zonetab[i][1],zonetab[i][2],zonetab[i][3]);
-			}
-				if (bomb == true) {
-					ctx.drawImage(bombe, carrepox, carreposy, 50 * zoom, 50 * zoom);
-					ctx.fillRect(carrepox-200,carreposy,600,150);
-					ctx.fillRect(carrepox,carreposy-200,150,600);
-		
 			
-				}
+				if (bomb == true) {		
+				for(let i=0;i<zonetab.length;i++){
+				ctx.drawImage(zone,zonetab[i][0],zonetab[i][1],zonetab[i][2],zonetab[i][3]);
+				ctx.drawImage(bombe, carrepox, carreposy, 50 * zoom, 50 * zoom);
+
+			}
+		}
 				ctx.drawImage(all_img[numero], posX, posY, 51 * zoom, 61 * zoom);
 
 				ctx.closePath();
@@ -54,17 +53,29 @@ function update() {
 
 	
 function collision_bombe(){
+	let zonex1=carrepox+150;
+	let zoney1= carreposy+150;
+	let zonex2=carrepox-150;
+	let zoney2= carreposy-150;
 	for(let i = 0; i < posBuisson.length; i++) {
-		if ((carrepox < posBuisson[i][0] + posBuisson[i][2] &&
-			carrepox + 400 > posBuisson[i][0]&&
+		if  ((zonex1 < posBuisson[i][0] + posBuisson[i][2] &&
+			zonex1 + 50 > posBuisson[i][0]&&
 			carreposy < posBuisson[i][1] + posBuisson[i][3] &&
-			150 + carreposy > posBuisson[i][1] )||(carrepox < posBuisson[i][0] + posBuisson[i][2] &&
-				carrepox + 150 > posBuisson[i][0]&&
+			50 + carreposy	 > posBuisson[i][1])||(zonex2 < posBuisson[i][0] + posBuisson[i][2] &&
+				zonex2 + 50 > posBuisson[i][0]&&
 				carreposy < posBuisson[i][1] + posBuisson[i][3] &&
-				400 + carreposy > posBuisson[i][1] )) {
+				50 + carreposy	 > posBuisson[i][1])||(carrepox < posBuisson[i][0] + posBuisson[i][2] &&
+					carrepox + 50 > posBuisson[i][0]&&
+					zoney2 < posBuisson[i][1] + posBuisson[i][3] &&
+					50 + zoney2	 > posBuisson[i][1])||(carrepox < posBuisson[i][0] + posBuisson[i][2] &&
+						carrepox + 50 > posBuisson[i][0]&&
+						zoney1 < posBuisson[i][1] + posBuisson[i][3] &&
+						50 + zoney1	 > posBuisson[i][1])) {
 				zonebool = true;
 				zonetab.push([posBuisson[i][0],posBuisson[i][1],posBuisson[i][2],posBuisson[i][3]]);
+				posBuisson.splice(i,1);
 			}
+			
 		}
 
 }
@@ -78,9 +89,18 @@ function collision(x,y){
 				posY += y;
 	 }
 	}
+	for(let i = 0; i < posBuisson.length; i++) {
+		if (posX < posBuisson[i][0] + posBuisson[i][2] &&
+			posX + 51  > posBuisson[i][0]&&
+			posY < posBuisson[i][1] + posBuisson[i][3] &&
+			61 + posY > posBuisson[i][1]) {
+				posX += x;
+				posY += y;
+	 }
+	}
 	
 }
-setInterval(update, 100);
+setInterval(update, 50);
 window.addEventListener('keydown', keydown_fun, false);
 
 function keydown_fun(e) {
