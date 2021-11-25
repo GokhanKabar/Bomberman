@@ -1,5 +1,6 @@
-export {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv, posbloc};
+export {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv, posbloc, posBuisson};
 
+import{zonebool} from'./prg.js'
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
@@ -14,6 +15,8 @@ let cam_x = 0;
 let cam_y = 0;
 let zoom = 10;
 let posbloc = [];
+let posBuisson = [];
+
 
 
 export default function onload_tilemap() {
@@ -135,11 +138,11 @@ export default function onload_tilemap() {
 					layer1_data_i += 1;
 				}
 			}
-			let posBuisson = [];
 			let layer2_data_i = 0;
 			for (let ih = 0, nh = layer2_height; ih < nh; ih += 1) {
 				for (let iw = 0, nw = layer2_width; iw < nw; iw += 1) {
-					if (layer2_data[layer2_data_i] > 0) {
+					if (layer2_data[layer2_data_i] > 0 ) {
+
 						map_ctx.drawImage(
 							tileset_elts[layer2_data[layer2_data_i] - 1],
 							iw * (16 * zoom),
