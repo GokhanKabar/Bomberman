@@ -7,8 +7,6 @@ let all_img = [];
 let img = new Image();
 img.src = './tilesets/bomberman.png';
 
-
-
 img.onload = function () {
 	let canvas1 = document.createElement('canvas');
 	canvas1.width = 51 * 2;
