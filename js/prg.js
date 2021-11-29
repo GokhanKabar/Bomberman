@@ -32,11 +32,13 @@ let img2 = new Image();
 img2.src = 'assets/smallerbomb.png';
 let anim_id2 = -1;
 
+let explosion = new Image();
+explosion.src = 'assets/boom.png';
 let all_img3 = [];
 let img3 = new Image();
-let anim_id3 = -1;
-img3.src = "assets/explosion.png";
-let firetab=[];
+let anim_id3 = 0;
+img3.src = 'assets/explosion.png';
+let firetab = [];
 
 img2.onload = function () {
 	let canvas2 = document.createElement('canvas');
@@ -57,29 +59,26 @@ img2.onload = function () {
 	anim_id2 = 0;
 };
 
-img3.onload = function() {
+img3.onload = function () {
 	let canvas3 = document.createElement('canvas');
-	canvas3.width = 123* 4;
-	canvas3.height = 121* 4;
+	canvas3.width = 123 * 4;
+	canvas3.height = 121 * 4;
 	let context3 = canvas3.getContext('2d');
-	context3.drawImage(img3, 0,0,canvas3.width,canvas3.height);
-	for(let j = 0; j < 4; j += 1) {
+	context3.drawImage(img3, 0, 0, canvas3.width, canvas3.height);
+	for (let j = 0; j < 4; j += 1) {
 		let imax = 4;
-		 for(let i = 0; i < imax; i += 1) {
-			let canvasImageData3 = context3.getImageData(i*123, j*121, 123, 121);
-		   let canvas4 = document.createElement('canvas');
-		  canvas4.width = 123;
-		  canvas4.height = 121;
-		  let context4 = canvas4.getContext('2d');
-		  context4.putImageData(canvasImageData3, 0,0);
+		for (let i = 0; i < imax; i += 1) {
+			let canvasImageData3 = context3.getImageData(i * 123, j * 121, 123, 121);
+			let canvas4 = document.createElement('canvas');
+			canvas4.width = 123;
+			canvas4.height = 121;
+			let context4 = canvas4.getContext('2d');
+			context4.putImageData(canvasImageData3, 0, 0);
 			all_img3.push(canvas4);
-	  }
+		}
 	}
 	anim_id3 = 0;
-  
-  };
-  
-  
+};
 
 function update() {
 	ctx.beginPath();
@@ -90,7 +89,7 @@ function update() {
 		ctx.putImageData(imageData, 0, 0);
 		let zoom = 2;
 		let zoom2 = 3;
-		let zoom3 = 2;
+		let zoom3 = 1;
 
 		for (let i = 0; i < zonetab.length; i++) {
 			ctx.drawImage(
@@ -100,7 +99,6 @@ function update() {
 				zonetab[i][2],
 				zonetab[i][3]
 			);
-		
 		}
 
 		if (bomb == true) {
@@ -115,23 +113,26 @@ function update() {
 				anim_id2 += 1;
 				if (anim_id2 == all_img2.length) {
 					collision_bombe();
+					console.log(firetab);
 					anim_id2 = 5;
-					if(anim_id3 >= 0) {
-						for (let i = 0; i < zonetab.length; i++) {
-						ctx.drawImage(all_img3[anim_id3], zonetab[i][0],
-							zonetab[i][1],
-							123*zoom3,
-							121*zoom3);
-						anim_id3 += 1;
+					if (anim_id3 >= 0) {
+						for (let i = 0; i < firetab.length; i++) {
+							ctx.drawImage(
+								explosion,
+								firetab[i][0],
+								firetab[i][1],
+								123 * zoom3,
+								121 * zoom3
+							);
+							anim_id3 += 1;
 
-						if(anim_id3 == all_img3.length) { 
-						  anim_id3 = 15; 
+							if (anim_id3 == all_img3.length) {
+								anim_id3 = 15;
+							}
 						}
-
-						
+						anim_id3 = 0;
 					}
-					anim_id3=0;
-					}
+					firetab = [];
 					anim_id2 = 0;
 					bomb = false;
 				}
@@ -241,7 +242,7 @@ function keydown_fun(e) {
 			break;
 
 		case 'Space':
-			if(bomb == false){
+			if (bomb == false) {
 				bomb = true;
 				carreposy = posY;
 				carrepox = posX;
