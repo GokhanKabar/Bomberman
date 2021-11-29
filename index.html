@@ -9,12 +9,20 @@
   background-image: url('assets/background.jpg');
   background-size: 2600px;
 }
-    body {margin: 0px; padding: 0px;}
+    body {margin: 50px; padding: 0px;}
     canvas {border: 1px solid black;}
+    h1{font-size: 50px; display: inline;}
+    h2{text-align : right; font-size: 50px; }
+
   </style>
 </head>
 <body>
- <center> <canvas id="myCanvas" ></canvas></center>
+  <h1>Score Perso 1 : </h1>
+  <h1 id="s1"'>0000</h1>
+  <center> <canvas id="myCanvas" ></canvas></center>
+  
+  <h2>Score Perso 2: </h2>
+  <h2 id="s2"'>0000</h2>
 <script type="module" src="./js/prg.js"></script>
 </body>
 </html>
