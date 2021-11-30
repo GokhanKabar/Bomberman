@@ -58,6 +58,12 @@ let score2=document.getElementById('s2');
 let s1=0;
 let s2=0;
 
+let win = new Image();
+win.src = 'assets/win.png';
+	
+
+
+
 img2.onload = function () {
 	let canvas2 = document.createElement('canvas');
 	canvas2.width = 26 * 6;
@@ -193,8 +199,19 @@ function update() {
 				}
 			}
 		}
+	
 		ctx.drawImage(all_img[numero], posX, posY, 51 * zoom, 61 * zoom);
 		ctx.drawImage(tabperso2[numero2], posX2, posY2, 51 * zoom, 61 * zoom);
+		if (posBuisson==[])
+{
+	ctx.drawImage(
+		win,
+		cnv.width,
+		cnv.height,
+		123 * zoom3,
+		121 * zoom3
+	);
+}
 		ctx.closePath();
 	}
 }
@@ -243,9 +260,9 @@ function collision_bombe1() {
 	}
 }
 function collision_bombe2() {
-	let zonex1 = bombX2 + 150;
-	let zoney1 = bombY2 + 150;
-	let zonex2 = bombX2 - 150;
+	let zonex1 = bombX2 + 150;// pour le rect en haut
+	let zoney1 = bombY2 + 150;//pour le rect a droite 
+	let zonex2 = bombX2 - 150;// pour le rect
 	let zoney2 = bombY2 - 150;
 	for (let i = 0; i < posBuisson.length; i++) {
 		if (
@@ -339,78 +356,246 @@ window.addEventListener('keydown', keydown_fun, false);
 function keydown_fun(e) {
 	switch (e.code) {
 		case 'ArrowRight':
-			if (numero == 3) numero = 2;
-			else numero = 3;
-			posX += 20;
-			collision(-20, 0);
+			droite_1();
 			break;
 
 		case 'ArrowLeft':
-			if (numero == 1) numero = 0;
-			else numero = 1;
-			posX -= 20;
-			collision(+20, 0);
+			gauche_1();
 			break;
 
 		case 'ArrowDown':
-			if (numero == 5) numero = 4;
-			else numero = 5;
-			posY += 20;
-			collision(0, -20);
+			bas_1();
 			break;
 
 		case 'ArrowUp':
-			if (numero == 7) numero = 6;
-			else numero = 7;
-			posY -= 20;
-			collision(0, +20);
+			haute_1();
 			break;
 
 		case 'Space':
-			if (bomb == false) {
-				bomb = true;
-				bombY1 = posY;
-				bombX1 = posX;
-			}
+			bombe_p1();
 
 			break;
 	}
 	switch (e.key) {			
 		case 'd':
-				if (numero2 == 3) numero2 = 2;
-				else numero2 = 3;
-				posX2 += 20;
-				collision2(-20, 0);
+				droite_2();
 				break;
 	
 		case 'q':
-				if (numero2 == 1) numero2= 0;
-				else numero2 = 1;
-				posX2 -= 20;
-				collision2(+20, 0);
+				gauche_2();
 				break;
 	
 		case 's':
-				if (numero2 == 5) numero2 = 4;
-				else numero2 = 5;
-				posY2 += 20;
-				collision2(0, -20);
+				bas_2();
 				break;
 	
 		case 'z':
-				if (numero2 == 7) numero2 = 6;
-				else numero2 = 7;
-				posY2 -= 20;
-				collision2(0, +20);
+			haute_2();
 				break;
 	
 		case 'Shift':
-				if (bomb2 == false) {
-					bomb2 = true;
-					bombY2 = posY2;
-					bombX2 = posX2;
-				}
+				bombe_p2();
 	
 				break;
 	}
 }
+function droite_1(){
+    if (numero == 3) numero = 2;
+			else numero = 3;
+			posX += 20;
+			collision(-20,0);
+}
+function gauche_1()
+{
+	if (numero == 1) numero = 0;
+			else numero = 1;
+			posX -= 20;
+			collision(+20, 0);
+}
+function haute_1()
+{
+	if (numero == 7) numero = 6;
+	else numero = 7;
+	posY -= 20;
+	collision(0, +20);
+}
+function bas_1(){
+	if (numero == 5) numero = 4;
+	else numero = 5;
+	posY += 20;
+	collision(0, -20);
+}
+function bombe_p1(){
+	if (bomb == false) {
+		bomb = true;
+		bombY1 = posY;
+		bombX1 = posX;
+	}
+}
+function droite_2(){
+    if (numero2 == 3) numero2 = 2;
+			else numero2 = 3;
+			posX2 += 20;
+			collision2(-20,0);
+}
+function gauche_2()
+{
+	if (numero2 == 1) numero2 = 0;
+			else numero2 = 1;
+			posX2 -= 20;
+			collision2(+20, 0);
+}
+function haute_2()
+{
+	if (numero2 == 7) numero2 = 6;
+	else numero2 = 7;
+	posY2 -= 20;
+	collision2(0, +20);
+}
+function bas_2(){
+	if (numero2 == 5) numero2 = 4;
+	else numero2 = 5;
+	posY2 += 20;
+	collision2(0, -20);
+}
+function bombe_p2(){
+	if (bomb2 == false) {
+		bomb2 = true;
+		bombY2 = posY2;
+		bombX2 = posX2;
+	}
+}
+function game1(){ 
+	let vr,vb,vd,vh,vba,vg;
+    setTimeout(function(){ vr =  setInterval(bas_1,500); }, 1000);	
+	setTimeout(function(){ clearInterval(vr) }, 7000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 7000);	
+	setTimeout(function(){ clearInterval(vb) }, 8000);
+	setTimeout(function(){ vr =  setInterval(bas_1,500); }, 8000);	
+	setTimeout(function(){ clearInterval(vr) }, 11000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 11000);	
+	setTimeout(function(){ clearInterval(vd) }, 13000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 13000);	
+	setTimeout(function(){ clearInterval(vb) }, 14000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 14000);	
+	setTimeout(function(){ clearInterval(vd) }, 18000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 18000);	
+	setTimeout(function(){ clearInterval(vb) }, 19000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 19000);	
+	setTimeout(function(){ clearInterval(vd) }, 23000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 23000);	
+	setTimeout(function(){ clearInterval(vb) }, 24000);
+	setTimeout(function(){ vh =  setInterval(haute_1,500); }, 24000);	
+	setTimeout(function(){ clearInterval(vh) }, 28000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 28000);	
+	setTimeout(function(){ clearInterval(vb) }, 29000);
+	setTimeout(function(){ vh =  setInterval(haute_1,500); }, 29000);	
+	setTimeout(function(){ clearInterval(vh) }, 34000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 34000);	
+	setTimeout(function(){ clearInterval(vd) }, 36000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 36000);	
+	setTimeout(function(){ clearInterval(vb) }, 37000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 37000);	
+	setTimeout(function(){ clearInterval(vd) }, 40000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 40000);	
+	setTimeout(function(){ clearInterval(vb) }, 41000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 41000);	
+	setTimeout(function(){ clearInterval(vd) }, 48000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 48000);	
+	setTimeout(function(){ clearInterval(vb) }, 49000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 49000);	
+	setTimeout(function(){ clearInterval(vd) }, 53000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 53000);	
+	setTimeout(function(){ clearInterval(vb) }, 54000);
+	setTimeout(function(){ vd =  setInterval(droite_1,500); }, 54000);	
+	setTimeout(function(){ clearInterval(vd) }, 57000);
+	setTimeout(function(){ vba =  setInterval(bas_1,500); }, 57000);	
+	setTimeout(function(){ clearInterval(vba) }, 59000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 59000);	
+	setTimeout(function(){ clearInterval(vb) }, 60000);
+	setTimeout(function(){ vba =  setInterval(bas_1,500); }, 60000);	
+	setTimeout(function(){ clearInterval(vba) }, 64000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 64000);	
+	setTimeout(function(){ clearInterval(vb) }, 65000);
+	setTimeout(function(){ vba =  setInterval(bas_1,500); }, 65000);	
+	setTimeout(function(){ clearInterval(vba) }, 69000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 69000);	
+	setTimeout(function(){ clearInterval(vb) }, 70000);
+	setTimeout(function(){ vg =  setInterval(gauche_1,500); }, 70000);	
+	setTimeout(function(){ clearInterval(vg) }, 76000);
+	setTimeout(function(){ vb =  setInterval(bombe_p1,500); }, 76000);	
+	setTimeout(function(){ clearInterval(vb) }, 77000);
+
+
+}
+function game2(){ 
+	let vr,vb,vd,vh,vdr;
+    setTimeout(function(){ vr =  setInterval(gauche_2,500); }, 1000);	
+	setTimeout(function(){ clearInterval(vr) }, 7000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 7000);	
+	setTimeout(function(){ clearInterval(vb) }, 8000);
+	setTimeout(function(){ vr =  setInterval(gauche_2,500); }, 8000);	
+	setTimeout(function(){ clearInterval(vr) }, 11000);
+	setTimeout(function(){ vd =  setInterval(gauche_2,500); }, 11000);	
+	setTimeout(function(){ clearInterval(vd) }, 13000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 13000);	
+	setTimeout(function(){ clearInterval(vb) }, 14000);
+	setTimeout(function(){ vd =  setInterval(gauche_2,500); }, 14000);	
+	setTimeout(function(){ clearInterval(vd) }, 18000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 18000);	
+	setTimeout(function(){ clearInterval(vb) }, 19000);
+	setTimeout(function(){ vd =  setInterval(gauche_2,500); }, 19000);	
+	setTimeout(function(){ clearInterval(vd) }, 23000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 23000);	
+	setTimeout(function(){ clearInterval(vb) }, 24000);
+	setTimeout(function(){ vd =  setInterval(gauche_2,500); }, 24000);	
+	setTimeout(function(){ clearInterval(vd) }, 29000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 29000);	
+	setTimeout(function(){ clearInterval(vb) }, 30000);
+	setTimeout(function(){ vd =  setInterval(gauche_2,500); }, 30000);	
+	setTimeout(function(){ clearInterval(vd) }, 34000);
+	setTimeout(function(){ vh =  setInterval(haute_2,500); }, 34000);	
+	setTimeout(function(){ clearInterval(vh) }, 36000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 36000);	
+	setTimeout(function(){ clearInterval(vb) }, 37000);
+	setTimeout(function(){ vh =  setInterval(haute_2,500); }, 37000);	
+	setTimeout(function(){ clearInterval(vh) }, 40000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 40000);	
+	setTimeout(function(){ clearInterval(vb) }, 41000);
+	setTimeout(function(){ vh =  setInterval(haute_2,500); }, 41000);	
+	setTimeout(function(){ clearInterval(vh) }, 47000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 47000);	
+	setTimeout(function(){ clearInterval(vdr )}, 49000);
+	setTimeout(function(){ vb =  setInterval(bombe_p2,500); }, 49000);	
+	setTimeout(function(){ clearInterval(vb) }, 50000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 50000);	
+	setTimeout(function(){ clearInterval(vdr )}, 54000);
+	setTimeout(function(){ vb=  setInterval(bombe_p2,500); }, 54000);	
+	setTimeout(function(){ clearInterval(vb )}, 55000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 55000);	
+	setTimeout(function(){ clearInterval(vdr )}, 60000);
+	setTimeout(function(){ vb=  setInterval(bombe_p2,500); }, 60000);	
+	setTimeout(function(){ clearInterval(vb )}, 61000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 61000);	
+	setTimeout(function(){ clearInterval(vdr )}, 65000);
+	setTimeout(function(){ vb=  setInterval(bombe_p2,500); }, 65000);	
+	setTimeout(function(){ clearInterval(vb )}, 66000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 66000);	
+	setTimeout(function(){ clearInterval(vdr )}, 69000);
+	setTimeout(function(){ vb=  setInterval(bombe_p2,500); }, 69000);	
+	setTimeout(function(){ clearInterval(vb )}, 70000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 70000);	
+	setTimeout(function(){ clearInterval(vdr )}, 73000);
+	setTimeout(function(){ vb=  setInterval(bombe_p2,500); }, 73000);	
+	setTimeout(function(){ clearInterval(vb )}, 74000);
+	setTimeout(function(){ vdr =  setInterval(droite_2,500); }, 74000);	
+	setTimeout(function(){ clearInterval(vdr )}, 77000);
+	setTimeout(function(){ vb=  setInterval(bombe_p2,500); }, 77000);	
+	setTimeout(function(){ clearInterval(vb )}, 78000);
+
+
+
+	
+}
+game1();
+game2();
