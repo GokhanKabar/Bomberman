@@ -1,6 +1,12 @@
-export {tilemap_loaded, tileset_loaded, cam_x, cam_y, map_cnv, posbloc, posBuisson};
-
-import{zonebool} from'./prg.js'
+export {
+	tilemap_loaded,
+	tileset_loaded,
+	cam_x,
+	cam_y,
+	map_cnv,
+	posbloc,
+	posBuisson,
+};
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
@@ -17,8 +23,6 @@ let zoom = 10;
 let posbloc = [];
 let posBuisson = [];
 
-
-
 export default function onload_tilemap() {
 	if (this.status == 200) {
 		tilemap_loaded = 1;
@@ -30,7 +34,6 @@ export default function onload_tilemap() {
 
 			let tileset_imageheight = tilemap['tilesets'][0]['imageheight'];
 			let tileset_imagewidth = tilemap['tilesets'][0]['imagewidth'];
-			//console.log(tileset_imagewidth);
 			let tileset_tileheight = tilemap['tilesets'][0]['tileheight'];
 			//Je multiplie par zoom pour aggrandir l'image
 			let map_height = tilemap['height'] * zoom;
@@ -53,12 +56,6 @@ export default function onload_tilemap() {
 			let layer2_height = tilemap['layers'][2]['height'];
 			let layer2_width = tilemap['layers'][2]['width'];
 
-			
-			//console.log(tileset_imageheight);
-			//console.log(tileset_imagewidth);
-			//console.log(tileset_tileheight);
-			//console.log(map_height);
-			//console.log(map_width);
 
 			let canvas = document.createElement('canvas');
 			canvas.height = tileset_imageheight;
@@ -105,6 +102,7 @@ export default function onload_tilemap() {
 			}
 
 			let layer0_data_i = 0;
+			//dessin de la map
 			for (let ih = 0, nh = layer0_height; ih < nh; ih += 1) {
 				for (let iw = 0, nw = layer0_width; iw < nw; iw += 1) {
 					if (layer0_data[layer0_data_i] > 0) {
@@ -120,6 +118,7 @@ export default function onload_tilemap() {
 				}
 			}
 			let layer1_data_i = 0;
+			//dessin des blocs
 			for (let ih = 0, nh = layer1_height; ih < nh; ih += 1) {
 				for (let iw = 0, nw = layer1_width; iw < nw; iw += 1) {
 					if (layer1_data[layer1_data_i] > 0) {
@@ -130,19 +129,21 @@ export default function onload_tilemap() {
 							16 * zoom,
 							16 * zoom
 						);
-						posbloc.push([iw * (16 * zoom),
+						posbloc.push([
+							iw * (16 * zoom),
 							ih * (16 * zoom),
 							16 * zoom,
-							16 * zoom]);
+							16 * zoom,
+						]);
 					}
 					layer1_data_i += 1;
 				}
 			}
+			//dessin des buissons
 			let layer2_data_i = 0;
 			for (let ih = 0, nh = layer2_height; ih < nh; ih += 1) {
 				for (let iw = 0, nw = layer2_width; iw < nw; iw += 1) {
-					if (layer2_data[layer2_data_i] > 0 ) {
-
+					if (layer2_data[layer2_data_i] > 0) {
 						map_ctx.drawImage(
 							tileset_elts[layer2_data[layer2_data_i] - 1],
 							iw * (16 * zoom),
@@ -150,15 +151,16 @@ export default function onload_tilemap() {
 							16 * zoom,
 							16 * zoom
 						);
-						posBuisson.push([iw * (16 * zoom),
+						posBuisson.push([
+							iw * (16 * zoom),
 							ih * (16 * zoom),
 							16 * zoom,
-							16 * zoom]);
+							16 * zoom,
+						]);
 					}
 					layer2_data_i += 1;
 				}
 			}
-			console.log(posbloc)
 		};
 	}
 }
