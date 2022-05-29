@@ -1,9 +1,9 @@
-export {all_img};
+export {tabperso1};
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
-let all_img = [];
+let tabperso1 = [];
 let img = new Image();
 img.src = './tilesets/bomberman.png';
 
@@ -21,7 +21,7 @@ img.onload = function () {
 			canvas2.height = 61;
 			let context2 = canvas2.getContext('2d');
 			context2.putImageData(canvasImageData1, 0, 0);
-			all_img.push(canvas2);
+			tabperso1.push(canvas2);
 		}
 	}
 };
