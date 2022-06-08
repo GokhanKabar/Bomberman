@@ -13,16 +13,22 @@
     canvas {border: 1px solid black;}
     h1{font-size: 50px; display: inline;}
     h2{text-align : right; font-size: 50px; }
+    #win2{position: absolute;top: 5%;right: 25%;font-size: 100px;}
+    #win1{position: absolute;top: 5%;right: 65%;font-size: 100px;}
+    #scoretotal{position: absolute;top: 4%;right: 5%;font-size: 80px;}
 
   </style>
 </head>
 <body>
   <h1>Score Perso 1 : </h1>
-  <h1 id="s1"'>0000</h1>
+  <h1 id="s1">0000</h1>
+  <h3 id="win1" hidden="true">Player 1 Win !</h3>
   <center> <canvas id="myCanvas" ></canvas></center>
   
   <h2>Score Perso 2: </h2>
-  <h2 id="s2"'>0000</h2>
+  <h2 id="s2">0000</h2>
+  <h3 id="win2" hidden="true">Player 2 Win !</h3>
+  <!-- <p id="scoretotal"></p> -->
 <script type="module" src="./js/prg.js"></script>
 </body>
 </html>

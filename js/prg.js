@@ -18,11 +18,6 @@ bombe.src = 'tilesets/bombe.png';
 let zone = new Image();
 zone.src = 'assets/zone.png';
 
-
-let bomb = false;
-
-
-
 let zonebool = true;
 
 let zonetab = [];
@@ -35,14 +30,25 @@ img2.src = 'assets/smallerbomb.png';
 let explosion = new Image();
 explosion.src = 'assets/boom.png';
 let firetab = [];
+
+//  page zoom
+toggleZoomScreen();
+function toggleZoomScreen() {
+	document.body.style.zoom = "55%";
+} 
+
+// score des parties jouées
 let score1=document.getElementById('s1');
+let score2=document.getElementById('s2');
 let s1=0;
+let s2=0;
 
-
-
+let win2 = document.getElementById('win2');
+let win1 = document.getElementById('win1');
 
 class Perso {
-	constructor(numero, bombY, bombX,bomb,posX,posY,zonetab,anim_id,tabperso,firetab) {
+	constructor(id,numero, bombY, bombX,bomb,posX,posY,zonetab,anim_id,tabperso,firetab) {
+		this.id = id;
 		this.numero = numero;
 		this.bombY = bombY;
 		this.bombX = bombX;
@@ -57,7 +63,8 @@ class Perso {
 	}
   }
 
-const perso1 = new Perso(8, 0,0,false,0,0,zonetab[100000],-1,tabperso1[100000],firetab[100000]);
+const perso1 = new Perso(1,8, 0,0,false,0,0,zonetab[100000],-1,tabperso1[100000],firetab[100000]);
+const perso2 = new Perso(2,8, 1000,1000,false,1000,1000,zonetab[100000],-1,tabperso2[100000],firetab[100000]);
 	
 
 
@@ -79,6 +86,7 @@ img2.onload = function () {
 		all_img2.push(canvas3);
 	}
 	perso1.anim_id = 0;
+	perso2.anim_id = 0;
 };
 //image de la deuxième bombe du deuxième joueur
 
@@ -94,7 +102,7 @@ function drawimgid(perso){
 			perso.zonetab[i][3]
 		);
 	}
-	if (bomb == true) {
+	if (perso.bomb == true) {
 		if (perso.anim_id >= 0) {
 			ctx.drawImage(
 				all_img2[perso.anim_id],
@@ -106,6 +114,7 @@ function drawimgid(perso){
 			perso.anim_id += 1;
 			if (perso.anim_id == all_img2.length) {
 				collision_bombe1(perso1);
+				collision_bombe1(perso2);
 				perso.anim_id = 5;
 				//dessine les explosions sur les buissons
 					for (let i = 0; i < perso.firetab.length; i++) {
@@ -120,7 +129,7 @@ function drawimgid(perso){
 				
 				perso.firetab = [];
 				perso.anim_id = 0;
-				bomb = false;
+				perso.bomb = false;
 			}
 		}
 	}
@@ -138,13 +147,16 @@ function update() {
 		
 
 		drawimgid(perso1)
+		drawimgid(perso2)
 	
 	//dessine les joueurs
 		ctx.drawImage(tabperso1[perso1.numero], perso1.posX, perso1.posY, 51 * zoom, 61 * zoom);
+		ctx.drawImage(tabperso2[perso2.numero], perso2.posX, perso2.posY, 51 * zoom, 61 * zoom);
 		ctx.closePath();
 	}
 }
-//collision de la bombe du joueur 1
+
+//collision de la bombe du joueur 1 & 2
 function collision_bombe1(perso) {
 	let zonex1 = perso.bombX + 150;
 	let zoney1 = perso.bombY + 150;
@@ -171,9 +183,16 @@ function collision_bombe1(perso) {
 				50 + zoney1 > posBuisson[i][1])
 		) {
 			//score du joueur 1
-			s1+=100;
-			score1.textContent= s1;
-			zonebool = true;
+			if(perso.id == 1){
+				s1+=100;
+				score1.textContent= s1;
+				zonebool = true;
+			}
+			if(perso.id == 2){
+				s2+=100;
+				score2.textContent= s2;
+				zonebool = true;
+			}
 			//récupération des coordoonées des buissons pour le fond
 			perso.zonetab.push([
 				posBuisson[i][0],
@@ -191,6 +210,18 @@ function collision_bombe1(perso) {
 			// supprime l'indice des buissons qui à était en collision
 			posBuisson.splice(i, 1);
 		}
+	}
+	// plus de buissons && victoire
+	if(posBuisson.length <= 0){
+		if(s2 > s1){
+			win2.textContent = "Player 2 gagne avec "+s2+" points !"
+			win2.hidden = false;
+		}
+		else{
+			win1.textContent = "Player 1 gagne avec "+s1+" points !"
+			win1.hidden = false;
+		}
+		setTimeout(function(){location.reload();},3000);
 	}
 }
 
@@ -219,6 +250,7 @@ function collision(perso,x,y) {
 			perso.posY += y;
 		}
 	}
+
 }
 
 
@@ -227,8 +259,8 @@ setInterval(update, 150);
 
 
 	function bombe_p1(perso){
-		if (bomb == false) {
-			bomb = true;
+		if (perso.bomb == false) {
+			perso.bomb = true;
 			perso.bombY = perso.posY;
 			perso.bombX = perso.posX;
 		}
@@ -270,44 +302,39 @@ setInterval(update, 150);
 	collision(perso,0, -20);
 	}
 
-window.addEventListener('keydown', keydown_fun, false);
-function keydown_fun(e) {
-	switch (e.code) {
-		case 'ArrowRight':
-			droite(perso1);
-			break;
-		case 'ArrowLeft':
-			gauche(perso1);
-			break;
-		case 'ArrowDown':
-			bas(perso1);
-			break;
-		case 'ArrowUp':
-			haut(perso1);
-			break;
-		case 'Space':
-			bombe_p1(perso1);
-			break;
+	window.addEventListener('keydown', keydown_fun, false);
+	function keydown_fun(e) {
+		switch (e.code) {
+			case 'ArrowRight':
+				droite(perso1);
+				break;
+			case 'ArrowLeft':
+				gauche(perso1);
+				break;
+			case 'ArrowDown':
+				bas(perso1);
+				break;
+			case 'ArrowUp':
+				haut(perso1);
+				break;
+			case 'Space':
+				bombe_p1(perso1);
+				break;
+			case 'KeyD':
+				droite(perso2);
+				break;	
+			case 'KeyA':
+				gauche(perso2);
+				break;
+			case 'KeyS':
+				bas(perso2);
+				break;
+			case 'KeyW':
+				haut(perso2);
+				break;	
+			case 'ShiftLeft':
+				bombe_p1(perso2);
+				break;
+		
+		}
 	}
-	// switch (e.key) {			
-	// 	case 'd':
-	// 			droite(perso2);
-	// 			break;
-	
-	// 	case 'q':
-	// 			gauche(perso2);
-	// 			break;
-	
-	// 	case 's':
-	// 			bas(perso2);
-	// 			break;
-	
-	// 	case 'z':
-	// 		haut(perso2);
-	// 			break;
-	
-	// 	case 'Shift':
-	// 			bombe_p1(perso2);
-	// 			break;
-	// }
-}
